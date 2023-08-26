@@ -8,7 +8,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="{{route('sections.store')}}" method="post" autocomplete="off">
+        <form action="{{route('categories.store')}}" method="post" autocomplete="off">
             @csrf
             <div class="modal-body">
                 <div class="form-group">

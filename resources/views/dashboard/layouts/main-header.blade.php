@@ -272,3 +272,6 @@
 				</div>
 			</div>
 <!-- /main-header -->
+
+@include('dashboard.layouts.notification')
+
