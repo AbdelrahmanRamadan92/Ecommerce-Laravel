@@ -8,13 +8,17 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="{{route('categories.store')}}" method="post" autocomplete="off">
+        <form action="{{route('categories.store')}}" method="post" autocomplete="off" enctype="multipart/form-data">
             @csrf
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="name" class="col-form-label">Section Name:</label>
+                    <label for="name" class="col-form-label">Category Name:</label>
                     <input type="text" class="form-control" id="name" name="name">
-                </div>            
+                </div>    
+                <div class="form-group">
+                  <label for="filename" class="col-form-label">Category Image:</label>
+                  <input type="file" class="form-control" id="filename" name="filename">
+              </div>        
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

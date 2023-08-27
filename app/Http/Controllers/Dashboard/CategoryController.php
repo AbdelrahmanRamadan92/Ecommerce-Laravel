@@ -5,16 +5,23 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Traits\FileUploadTrait;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
+    use FileUploadTrait;
+    
+
     /**
      * Display a listing of the resource.
      */
-    public function index() : View
+    public function index(): View
     {
-        return view('dashboard.categories.index');
+        $categories = Category::all();
+        return view('dashboard.categories.index',compact('categories'));
     }
 
     /**
@@ -30,7 +37,33 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:categories|max:50|min:3',
+            'filename' => 'required|image|mimes:png,jpg|max:2048',
+        ]);
+        /**
+         * Starting Database Transaction. 
+         */
+        DB::beginTransaction();
+        try {
+            // Perform your database operations within the transaction
+            $category = New Category;
+            $category->name = $request->name;
+            $category->save();
+            $this->uploadFile($request,'filename','categories','uploads',$category->id,'App\Models\Category');
+
+            // If everything is successful, commit the transaction
+            DB::commit();
+            session()->flash('add');
+            return redirect()->route('categories.index');
+        } catch (\Exception $e) {
+            /**
+             * rolling back Database Transaction if an exception occured. 
+             */
+            DB::rollBack();
+            // Handle or log the exception
+            throw $e;
+        }
     }
 
     /**

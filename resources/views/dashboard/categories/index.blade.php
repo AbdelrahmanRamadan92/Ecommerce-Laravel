@@ -30,6 +30,15 @@
 								</div>
 							</div>
 							<div class="card-body">
+								@if ($errors->any())
+								<div class="alert alert-danger">
+									<ul>
+										@foreach ($errors->all() as $error)
+											<li>{{ $error }}</li>
+										@endforeach
+									</ul>
+								</div>
+								@endif
 								<div class="table-responsive">
 									<table class="table text-md-nowrap" id="example1">
 										<thead>
@@ -41,25 +50,25 @@
 											</tr>
 										</thead>
 										<tbody>
-											{{-- @foreach ( $sections as $section)
+											@foreach ( $categories as $category)
 												<tr>
 													<td>{{$loop->index+1}}</td>
-													<td>{{$section->name}}</td>
-													<td>{{$section->created_at->diffForHumans()}}</td>
+													<td>{{$category->name}}</td>
+													<td><img src="{{URL::asset('dashboard/uploads/categories/'.$category->image->filename)}}" alt="{{$category->name}}" height="50" width="50"></td>
 													<td>									
-														<button type="button" class="btn btn-small btn-info" data-toggle="modal" data-target="#editeModal{{$section->id}}">
+														<button type="button" class="btn btn-small btn-info" data-toggle="modal" data-target="#editeModal{{$category->id}}">
 															<i class="las la-pen"></i>
 												  		</button>
 													</td>
 													<td>														
-														<button type="button" class="btn btn-small btn-danger" data-toggle="modal" data-target="#deleteModal{{$section->id}}">
+														<button type="button" class="btn btn-small btn-danger" data-toggle="modal" data-target="#deleteModal{{$category->id}}">
 															<i class="las la-trash"></i>
 													    </button></td>
 												</tr>
-												@include('dashboard.admin.sections.edite')
-												@include('dashboard.admin.sections.delete')
+												{{-- @include('dashboard.categories.edite') --}}
+												{{-- @include('dashboard.categories.delete') --}}
 
-											@endforeach --}}
+											@endforeach
 										</tbody>
 									</table>
 								</div>
