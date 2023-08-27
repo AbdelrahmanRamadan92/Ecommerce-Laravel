@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
+            $table->string('filename');
+            $table->morphs('imageable');//create two coloumns imageable_id and imageable_type
             $table->timestamps();
         });
     }
