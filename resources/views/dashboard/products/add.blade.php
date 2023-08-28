@@ -13,19 +13,24 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="name" class="col-form-label">Product Name:</label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
                 </div>
                 <div class="form-group">
-                  <label for="name" class="col-form-label">Product Price:</label>
-                  <input type="text" class="form-control" id="name" name="name">
+                  <label for="price" class="col-form-label">Product Price:</label>
+                  <input type="number" class="form-control" id="price" name="price" step="0.1" value="{{ old('price') }}">
               </div>
               <div class="form-group">
-                <label for="name" class="col-form-label">Product Category:</label>
-                <input type="text" class="form-control" id="name" name="name">
+                <label for="category_id" class="col-form-label">Product Category:</label>
+                <select name="category_id" class="form-control " >
+                    <option value="" selected disabled> Choose Category</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                    @endforeach
+                </select>
             </div>                 
             <div class="form-group">
-              <label for="name" class="col-form-label">Product Image:</label>
-              <input type="file" class="form-control" id="image" name="image">
+              <label for="filename" class="col-form-label">Product Image:</label>
+              <input type="file" class="form-control" id="filename" name="filename">
           </div>              
             </div>
             <div class="modal-footer">

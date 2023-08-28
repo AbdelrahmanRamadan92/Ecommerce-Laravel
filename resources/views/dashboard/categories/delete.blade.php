@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="deleteModal{{$section->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal{{$category->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -8,13 +8,13 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="/sections/{{$section->id}}" method="post" autocomplete="off">
+        <form action="/categories/{{$category->id}}" method="post" autocomplete="off">
             @csrf
             @method('delete')
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="name" class="col-form-label">{{$section->name}}</label>
-                    <P> هل انت متاكد من عملية الحذف</P>
+                    <label for="name" class="col-form-label">{{$category->name}}</label>
+                    <P>Are You Sure To Delete ?</P>
                 </div>            
             </div>
             <div class="modal-footer">

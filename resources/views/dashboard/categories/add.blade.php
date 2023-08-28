@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">اضافة قسم</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -13,11 +13,11 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="name" class="col-form-label">Category Name:</label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}">
                 </div>    
                 <div class="form-group">
                   <label for="filename" class="col-form-label">Category Image:</label>
-                  <input type="file" class="form-control" id="filename" name="filename">
+                  <input type="file" class="form-control" id="filename" name="filename" >
               </div>        
             </div>
             <div class="modal-footer">

@@ -31,6 +31,7 @@ trait FileUploadTrait
         $image->filename = $fileName;
         $image->imageable_id = $imageable_id;
         $image->imageable_type = $imageable_type;
+        
         $image->save();
 
 

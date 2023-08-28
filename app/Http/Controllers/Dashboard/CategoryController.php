@@ -13,7 +13,7 @@ use Illuminate\View\View;
 class CategoryController extends Controller
 {
     use FileUploadTrait;
-    
+
 
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class CategoryController extends Controller
     public function index(): View
     {
         $categories = Category::all();
-        return view('dashboard.categories.index',compact('categories'));
+        return view('dashboard.categories.index', compact('categories'));
     }
 
     /**
@@ -38,8 +38,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:categories|max:50|min:3',
-            'filename' => 'required|image|mimes:png,jpg|max:2048',
+            'name' => ['required', 'string', 'unique:categories', 'max:50', 'min:3'],
+            'filename' => ['required', 'image', 'mimes:png,jpg', 'max:2048'],
         ]);
         /**
          * Starting Database Transaction. 
@@ -47,10 +47,10 @@ class CategoryController extends Controller
         DB::beginTransaction();
         try {
             // Perform your database operations within the transaction
-            $category = New Category;
+            $category = new Category;
             $category->name = $request->name;
             $category->save();
-            $this->uploadFile($request,'filename','categories','uploads',$category->id,'App\Models\Category');
+            $this->uploadFile($request, 'filename', 'categories', 'uploads', $category->id, 'App\Models\Category');
 
             // If everything is successful, commit the transaction
             DB::commit();

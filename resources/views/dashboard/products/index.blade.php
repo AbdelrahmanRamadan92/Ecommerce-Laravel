@@ -30,38 +30,52 @@
 								</div>
 							</div>
 							<div class="card-body">
+								@if ($errors->any())
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									<ul>
+									   @foreach($errors->all() as $error)
+										   <li>{{ $error}}</li>
+									   @endforeach    
+									   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										   <span aria-hidden="true">&times;</span>
+									   </button>
+									</ul>
+								</div>
+								@endif
 								<div class="table-responsive">
 									<table class="table text-md-nowrap" id="example1">
 										<thead>
 											<tr>
 												<th class="wd-15p border-bottom-0">#</th>
 												<th class="wd-15p border-bottom-0">Product Name</th>
-												<th class="wd-15p border-bottom-0">product Category</th>
 												<th class="wd-15p border-bottom-0">product Price</th>
 												<th class="wd-15p border-bottom-0">product Image</th>
+												<th class="wd-15p border-bottom-0">product Category</th>
 												<th class="wd-10p border-bottom-0" colspan="2">Operations</th>
 											</tr>
 										</thead>
 										<tbody>
-											{{-- @foreach ( $sections as $section)
+											@foreach ( $products as $product)
 												<tr>
 													<td>{{$loop->index+1}}</td>
-													<td>{{$section->name}}</td>
-													<td>{{$section->created_at->diffForHumans()}}</td>
+													<td>{{$product->name}}</td>
+													<td>{{$product->price}}</td>
+													<td>{{$product->category->name}}</td>
+													<td><img src="{{URL::asset('dashboard/uploads/products/'.$product->image->filename)}}" alt="{{$product->name}}" height="50" width="50"></td>
 													<td>									
-														<button type="button" class="btn btn-small btn-info" data-toggle="modal" data-target="#editeModal{{$section->id}}">
+														<button type="button" class="btn btn-small btn-info" data-toggle="modal" data-target="#editeModal{{$product->id}}">
 															<i class="las la-pen"></i>
 												  		</button>
 													</td>
 													<td>														
-														<button type="button" class="btn btn-small btn-danger" data-toggle="modal" data-target="#deleteModal{{$section->id}}">
+														<button type="button" class="btn btn-small btn-danger" data-toggle="modal" data-target="#deleteModal{{$product->id}}">
 															<i class="las la-trash"></i>
 													    </button></td>
 												</tr>
-												@include('dashboard.admin.sections.edite')
-												@include('dashboard.admin.sections.delete')
+												@include('dashboard.products.edite')
+												@include('dashboard.products.delete')
 
-											@endforeach --}}
+											@endforeach
 										</tbody>
 									</table>
 								</div>
