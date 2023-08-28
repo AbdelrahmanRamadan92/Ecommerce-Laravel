@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
-use App\Traits\FileUploadTrait;
+use App\Traits\FileTrait;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProductRequest;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +14,7 @@ use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    use FileUploadTrait;
+    use FileTrait;
     /**
      * Display a listing of the resource.
      */

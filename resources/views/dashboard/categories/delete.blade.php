@@ -8,7 +8,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="/categories/{{$category->id}}" method="post" autocomplete="off">
+        <form action="{{route('categories.destroy',$category->id)}}" method="post" autocomplete="off">
             @csrf
             @method('delete')
             <div class="modal-body">

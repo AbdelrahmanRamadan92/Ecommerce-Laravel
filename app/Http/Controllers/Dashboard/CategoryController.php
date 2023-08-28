@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Traits\FileTrait;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    use FileUploadTrait;
-
+    use FileTrait;
 
     /**
      * Display a listing of the resource.
@@ -56,13 +56,13 @@ class CategoryController extends Controller
             DB::commit();
             session()->flash('add');
             return redirect()->route('categories.index');
-        } catch (\Exception $e) {
+        } catch (\Throwable $th) {
             /**
              * rolling back Database Transaction if an exception occured. 
              */
             DB::rollBack();
             // Handle or log the exception
-            throw $e;
+            throw $th;
         }
     }
 
@@ -85,16 +85,45 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Category $category): RedirectResponse
     {
-        //
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:50', 'min:3'],
+            'filename' => ['nullable', 'image', 'mimes:png,jpg', 'max:2048'],
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $category->name = $request->name;
+            $category->save();
+            if ($request->hasFile('filename')) {
+                $imageId = $category->image->id;
+                $this->updateFile($request, 'filename', 'uploads', 'categories', $imageId);
+            }
+
+            DB::commit();
+
+            session()->flash('update');
+            return redirect()->route('categories.index');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            // Handle or log the exception
+            throw $th;
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category): RedirectResponse
     {
-        //
+        $imageId = $category->image->id;
+        $deletedCategory = $category->delete();
+        if ($deletedCategory) {
+            $this->deleteFileIfExists('uploads', 'categories', $imageId);
+            session()->flash('delete');
+            return redirect()->route('categories.index');
+        }
+        return redirect()->back();
     }
 }

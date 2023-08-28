@@ -68,8 +68,8 @@
 															<i class="las la-trash"></i>
 													    </button></td>
 												</tr>
-												{{-- @include('dashboard.categories.edite') --}}
-												{{-- @include('dashboard.categories.delete') --}}
+												@include('dashboard.categories.edite')
+												@include('dashboard.categories.delete')
 
 											@endforeach
 										</tbody>
