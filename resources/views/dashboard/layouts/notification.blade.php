@@ -9,7 +9,7 @@
 </script>
     
 @endif
-@if (session()->has('edite'))
+@if (session()->has('update'))
 <script>
     window.onload=function(){
         notif({

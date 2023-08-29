@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Traits\FileTrait;
@@ -91,9 +92,32 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->category_id = $request->category_id;
+
+        if ($request->hasFile('filename')) {
+
+            DB::beginTransaction();
+            try {
+                $product->save();
+                $imageId = $product->image->id;
+                $this->updateFile($request, 'filename', 'uploads', 'products', $imageId);
+
+                DB::commit();
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                throw $th;
+            }
+        } else {
+            $product->save();
+        }
+
+        session()->flash('update');
+        return redirect()->route('products.index');
     }
 
     /**
@@ -101,6 +125,13 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $imageId = $product->image->id;
+        $deletedProduct = $product->delete();
+        if ($deletedProduct) {
+            $this->deleteFileIfExists('uploads', 'products', $imageId);
+            session()->flash('delete');
+            return redirect()->route('products.index');
+        }
+        return redirect()->back();
     }
 }
