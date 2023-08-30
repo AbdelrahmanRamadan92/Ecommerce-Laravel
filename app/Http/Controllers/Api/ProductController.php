@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
-use App\Http\Resources\ProductsResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
