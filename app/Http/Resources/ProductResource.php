@@ -3,28 +3,23 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductResource extends ResourceCollection
+class ProductResource extends JsonResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
-     * @return array<int|string, mixed>
+     * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
-        return Parent::toArray($request);
-
-        // return [
-        //     'id' => $this->id,
-        //     'name' => $this->name,
-        //     'price' => $this->price,
-        //     'category_id' => $this->category_id,
-        //     'image' => new ImageResource($this->image),
-        //     'categoory' =>  CategoryResource::collection($this->category),
-        // ];
-    }
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'price' => $this->price,
+            'category_id' => $this->category_id,
+            'image' => new ImageResource($this->image),
+            'category' =>new CategoryResource($this->category),
+        ];    }
 }
- 
-  
